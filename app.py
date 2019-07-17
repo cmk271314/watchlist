@@ -22,9 +22,10 @@ db = SQLAlchemy(app)  # 初始化扩展，传入程序实例 app
 
 @app.route('/')
 def index():
-    user = User.query.first()  # 读取用户记录
+    # user = User.query.first()  # 读取用户记录
     movies = Movie.query.all()  # 读取电影记录
-    return render_template('index.html', user=user, movies=movies)
+    # return render_template('index.html', user=user, movies=movies)
+    return render_template('index.html', movies=movies)
 
 
 @app.route('/hello')
@@ -46,6 +47,21 @@ def test_url_for():
     print(url_for('test_url_for'))
     print(url_for('test_url_for', num=2))
     return 'Test page'
+
+
+# 404处理函数
+@app.errorhandler(404)  # 传入要处理的错误代码
+def page_not_found(e):  # 接受异常对象作为参数
+    # user = User.query.first()
+    # return render_template('404.html', user=user), 404  # 返回模板和状态码
+    return render_template('404.html'), 404
+
+
+# 模板上下文处理函数
+@app.context_processor
+def inject_user():
+    user = User.query.first()
+    return dict(user=user)  # 需要返回字典，等同于return {'user': user}
 
 
 @app.cli.command()  # 注册为命令
