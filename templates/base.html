@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
         <title>{{ user.name }}'s Watchlist</title>
 
         <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css">
@@ -12,6 +13,12 @@
     {% endblock head %}
 </head>
 <body>
+<!-- 插入到页面标题上方 -->
+{% for message in get_flashed_messages() %}
+    <div class="alert">
+        {{ message }}
+    </div>
+{% endfor %}
 <h2>
     <img alt="Avatar" class="avatar" src="{{ url_for('static',filename='images/home.png') }}">
     {{ user.name }}'s Watchlist

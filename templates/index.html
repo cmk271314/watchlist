@@ -1,11 +1,22 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
     <p>{{ movies|length }} Titles</p>{# 使用 length 过滤器获取 movies 变量的长度 #}
+    <form method="post">
+        name<input type="text" name="title" autocomplete="off" required>
+        year<input type="text" name="year" autocomplete="off" required>
+        <input class="btn" type="submit" name="submit" value="添加">
+    </form>
+
     <ul class="move-list">
         {% for movie in movies %}
             <li>
                 {{ movie.title }} - {{ movie.year }}
                 <span class="float-right">
+                    <a class="btn" href="{{ url_for('edit',movie_id=movie.id) }}">编辑</a>
+                    <form class="inline-form" method="post" action="{{ url_for('delete',movie_id=movie.id) }}">
+                        <input class="btn" type="submit" name="delete" value="删除"
+                               onclick="return confirm('Are you sure?')">
+                    </form>
                     <a class="imdb" href="https://www.imdb.com/find?q={{ movie.title }}" target="_blank"
                        title="Find this movie on IMDb">
                         IMDB
